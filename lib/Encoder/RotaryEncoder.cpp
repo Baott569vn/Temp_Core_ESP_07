@@ -151,7 +151,7 @@ void IRAM_ATTR RotaryEncoder::buttonPress()
         if (buttonState)
         {
             _buttonPressed = true;
-            Serial.println("Button Pressed!");
+            // Serial.println("Button Pressed!");
         }
     }
 

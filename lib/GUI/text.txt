@@ -1,0 +1,75 @@
+// Hiệu ứng: Đường ngang đi từ trái qua phải
+for (byte x = 0; x <= SCREEN_WIDTH; x += 2) // Di chuyển đường ngang từ trái qua phải
+{
+    display.clearDisplay();
+    display.fillRect(0, SCREEN_HEIGHT / 2, x, SCREEN_HEIGHT / 2, WHITE); // Vẽ đường ngang
+    display.display();
+    delay(10); // Điều chỉnh tốc độ
+}
+
+// Xóa màn hình sau hiệu ứng
+display.clearDisplay();
+display.display();
+
+
+// Hiệu ứng: Đường dọc đi từ trên xuống dưới
+for (byte y = 0; y <= SCREEN_HEIGHT; y += 2) // Di chuyển đường dọc từ trên xuống
+{
+    display.clearDisplay();
+    display.fillRect(SCREEN_WIDTH / 2, 0, SCREEN_WIDTH / 2, y, WHITE); // Vẽ đường dọc
+    display.display();
+    delay(10); // Điều chỉnh tốc độ
+}
+
+// Xóa màn hình sau hiệu ứng
+display.clearDisplay();
+display.display();
+
+
+// Hiệu ứng vẽ đường ngang từ trái qua phải
+for (byte x = 0; x <= SCREEN_WIDTH; x += 2)
+{
+    display.clearDisplay();
+    display.fillRect(0, SCREEN_HEIGHT / 2, x, SCREEN_HEIGHT / 2, WHITE);
+    display.display();
+    delay(10);
+}
+
+// Hiệu ứng xóa đường từ phải về trái
+for (byte x = SCREEN_WIDTH; x >= 0; x -= 2)
+{
+    display.clearDisplay();
+    display.fillRect(0, SCREEN_HEIGHT / 2, x, SCREEN_HEIGHT / 2, WHITE);
+    display.display();
+    delay(10);
+}
+
+// Xóa toàn bộ sau hiệu ứng
+display.clearDisplay();
+display.display();
+
+
+    // Đi đường ngang từ trái qua phải
+    for (byte x = 0; x <= SCREEN_WIDTH; x += 4) // Tăng 4 để tăng tốc độ hiệu ứng
+    {
+        display.clearDisplay();
+        display.drawLine(0, SCREEN_HEIGHT / 2, x, SCREEN_HEIGHT / 2, WHITE); // Vẽ đường ngang
+        display.display();
+        delay(10); // Điều chỉnh để tăng hoặc giảm tốc độ
+    }
+
+    // Dừng một chút trước khi xóa
+    delay(100);
+
+    // Xóa từ trái qua phải
+    for (byte x = 0; x <= SCREEN_WIDTH; x += 4)
+    {
+        display.clearDisplay();
+        display.drawLine(x, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2, WHITE); // Xóa từ trái qua phải
+        display.display();
+    }
+
+    // Xóa hoàn toàn sau hiệu ứng
+    display.clearDisplay();
+    display.display();
+}
