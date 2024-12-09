@@ -11,7 +11,7 @@
 Menu menu;
 
 unsigned long previousMillis_main_Task1 = 0; // Định nghĩa giá trị của biến
-const long interval = 500;                   // 500ms
+const long interval = 3000;                   // 500ms
 
 void setup()
 {

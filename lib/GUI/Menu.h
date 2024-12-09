@@ -13,6 +13,7 @@
 
 #include "GUI_OLED.h"
 #include "RotaryEncoder.h"
+#include "bitmap_logo.h"
 
 #include <NTC_TemperatureSensor.h>
 
@@ -63,6 +64,8 @@ private:
     std::vector<std::function<void()>> caseList;
     void _PID_Temp();
     void _timer_Temp();
+    void _backDissplay();
+    void _blinkEyesMultiple();
 
 public:
     Menu();
@@ -99,6 +102,33 @@ Menu::Menu()
         std::bind(&Menu::sub9, this)};
 }
 
+void Menu::_blinkEyesMultiple()
+{
+    for (size_t a = 0; a < 3; a++)
+    {
+        // Hiển thị mở mắt
+        display.clearDisplay();
+        display.drawBitmap(0, 0, epd_bitmap_fram3, 128, 64, WHITE);
+        display.display();
+        delay((a = 2) ? 600 : 400); // Giữ trạng thái mở mắt trong 150ms
+
+        for (int i = 0; i < 2; i++)
+        { // Chớp mắt 3 lần
+            // Hiển thị mở mắt
+            display.clearDisplay();
+            display.drawBitmap(0, 0, epd_bitmap_fram3, 128, 64, WHITE);
+            display.display();
+            delay(150); // Giữ trạng thái mở mắt trong 150ms
+
+            // Hiển thị nhắm mắt
+            display.clearDisplay();
+            display.drawBitmap(0, 0, epd_bitmap_fram6, 128, 64, WHITE);
+            display.display();
+            delay(100); // Giữ trạng thái nhắm mắt trong 100ms
+        }
+    }
+}
+
 void Menu::begin(Stream &outputErrOledConn)
 {
     encoder.begin();
@@ -110,7 +140,14 @@ void Menu::begin(Stream &outputErrOledConn)
 
     display.clearDisplay();
 
+    display.drawBitmap(0, 0, epd_bitmap_logo, 128, 64, WHITE);
+    display.display();
+
+    delay(1500);
+    display.clearDisplay();
     delay(100);
+
+    _blinkEyesMultiple();
 
     gui.addMainItem("Setting Temp");
     gui.addMainItem("Timer Temp");
@@ -125,6 +162,11 @@ void Menu::begin(Stream &outputErrOledConn)
     gui.addMainItem("About CoreCraft");
 
     // Đi ngang từ trái qua phải
+    _backDissplay();
+}
+
+void Menu::_backDissplay()
+{
     for (byte x = 0; x <= SCREEN_WIDTH; x += 20)
     {
         display.clearDisplay();
@@ -150,6 +192,7 @@ double Menu::temperature()
 {
     tempSensor.setTargetTemperature(setTemp, setError);
     temp = tempSensor.readTemperature();
+    _timer_Temp(); // Gọi hàm xử lý hẹn giờ
     return temp;
 }
 
@@ -168,6 +211,7 @@ void Menu::MainMenu()
         {
             display.setTextColor(i == currentSelection ? SSD1306_BLACK : SSD1306_WHITE, SSD1306_WHITE);
             display.println(gui.getMainItem()[i]);
+            display.drawBitmap(0, 0, epd_bitmap_menu, 128, 64, WHITE);
         }
 
         display.display();
@@ -203,7 +247,7 @@ void Menu::printSubMenu()
     display.display();
 
     // Kiểm tra nếu nút "Back" được nhấn
-    (slecSubList == 0 && encoder.isPressed() && flagPress && !flagSet) ? (encoder.resetCounter(), flagMenu = false, MainMenu()) : void();
+    (slecSubList == 0 && encoder.isPressed() && flagPress && !flagSet) ? (encoder.resetCounter(), flagMenu = false, _backDissplay(), MainMenu()) : void();
     // Xử lý nhấn encoder để thay đổi chế độ
     if (encoder.isPressed() && slecSubList != 0)
         modeSlecSub = (modeSlecSub + 1) % 3, flagSet = modeSlecSub ? true : false;
@@ -313,11 +357,11 @@ void Menu::sub3()
 
     display.setTextSize(1);
     display.setCursor(66, 8);
-    display.setTextColor((PID_Temp == true) ? SSD1306_BLACK : SSD1306_WHITE);
+    display.setTextColor((PID_Temp == true) ? SSD1306_BLACK, SSD1306_WHITE : SSD1306_WHITE);
     display.print(PID_Temp ? "ON" : "OFF");
 
     display.setCursor(66, 16);
-    display.setTextColor((timer_Temp == true) ? SSD1306_BLACK : SSD1306_WHITE);
+    display.setTextColor((timer_Temp == true) ? SSD1306_BLACK, SSD1306_WHITE : SSD1306_WHITE);
     display.println(timer_Temp ? "ON" : "OFF");
 
     display.setTextColor(SSD1306_WHITE);
@@ -356,7 +400,6 @@ void Menu::sub3()
             PID_Temp = false;   // Tắt chế độ PID
             timer_Temp = false; // Tắt chế độ hẹn giờ
             _PID_Temp();
-            _timer_Temp(); // Gọi hàm xử lý hẹn giờ
         }
     }
 }
@@ -443,13 +486,13 @@ void Menu::_timer_Temp()
         // Kiểm tra nếu đã hết thời gian hẹn giờ
         if (millis() - previousMillis >= setTimerTemp)
         {
-            digitalWrite(13, LOW); // Tắt chân 13
-            timer_Temp = false;    // Tắt trạng thái `timer_Temp` để không lặp lại
+            digitalWrite(13, 0); // Tắt chân 13
             flag_getMillis = false;
+            timer_Temp = false; // Tắt trạng thái `timer_Temp` để không lặp lại
         }
     }
     else
     {
-        digitalWrite(13, LOW); // Đảm bảo chân 13 luôn tắt nếu `timer_Temp` không bật
+        digitalWrite(13, 0); // Đảm bảo chân 13 luôn tắt nếu `timer_Temp` không bật
     }
 }

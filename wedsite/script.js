@@ -1,5 +1,12 @@
 const temperatureChartCtx = document.getElementById('temperatureChart').getContext('2d');
 
+// Hàm chuyển đổi timestamp thành thời gian dạng HH:mm:ss
+function formatTime(timestamp) {
+    const date = new Date(timestamp);
+    return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+}
+
+// Tạo đồ thị
 const temperatureChart = new Chart(temperatureChartCtx, {
     type: 'line',
     data: {
@@ -16,7 +23,7 @@ const temperatureChart = new Chart(temperatureChartCtx, {
         responsive: true,
         scales: {
             x: {
-                type: 'linear',
+                type: 'category', // Sử dụng loại category cho trục X
                 position: 'bottom'
             },
             y: {
@@ -78,7 +85,19 @@ function updateChart(temperature) {
         labels.shift();
         data.shift();
     }
-    labels.push(Date.now());
+    
+    // Chuyển đổi thời gian thành định dạng HH:mm:ss
+    labels.push(formatTime(Date.now()));
     data.push(temperature);
     temperatureChart.update();
 }
+
+// Điều chỉnh kích thước đồ thị cho thiết bị di động
+window.addEventListener('resize', () => {
+    if (window.innerWidth <= 768) {
+        temperatureChart.options.scales.y.max = 50; // Điều chỉnh giá trị max cho trục Y (ví dụ cho điện thoại)
+    } else {
+        temperatureChart.options.scales.y.max = 100;
+    }
+    temperatureChart.update();
+});

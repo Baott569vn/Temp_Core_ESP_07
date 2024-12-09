@@ -7,6 +7,11 @@ NTC_TemperatureSensor::NTC_TemperatureSensor(int pin)
   pinMode(sensorPin, INPUT);
   targetTemperature = NAN; // Khởi tạo giá trị mục tiêu là NAN
   tolerance = 0.0;         // Khởi tạo sai số bằng 0
+  sampleIndex = 0;         // Khởi tạo chỉ số mẫu
+  for (int i = 0; i < NUM_SAMPLES; i++)
+  {
+    adcSamples[i] = 0; // Khởi tạo tất cả các mẫu ADC bằng 0
+  }
 }
 
 // Hàm tính nhiệt độ từ giá trị ADC
@@ -31,14 +36,32 @@ double NTC_TemperatureSensor::calculateTemperature(int rawADC)
 // Hàm đọc nhiệt độ trực tiếp
 double NTC_TemperatureSensor::readTemperature()
 {
-  int rawADC = readADC();
+  int rawADC = readAverageADC(); // Đọc ADC trung bình
   return calculateTemperature(rawADC);
 }
 
 // Hàm đọc giá trị ADC từ cảm biến
 int NTC_TemperatureSensor::readADC()
 {
-  return analogRead(sensorPin);
+  return analogRead(sensorPin); // Đọc giá trị ADC từ cảm biến
+}
+
+// Hàm tính giá trị ADC trung bình
+int NTC_TemperatureSensor::readAverageADC()
+{
+  // Đọc giá trị ADC mới và thay thế giá trị cũ trong mảng
+  adcSamples[sampleIndex] = readADC();
+  sampleIndex = (sampleIndex + 1) % NUM_SAMPLES; // Cập nhật chỉ số mẫu (vòng lặp lại mảng)
+
+  // Tính tổng các giá trị ADC trong mảng
+  long sum = 0;
+  for (int i = 0; i < NUM_SAMPLES; i++)
+  {
+    sum += adcSamples[i];
+  }
+
+  // Trả về giá trị trung bình
+  return sum / NUM_SAMPLES;
 }
 
 // Thiết lập nhiệt độ mục tiêu và sai số
