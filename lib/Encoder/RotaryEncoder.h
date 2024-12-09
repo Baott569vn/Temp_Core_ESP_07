@@ -61,7 +61,7 @@ private:
   volatile bool _buttonPressed;           ///< Trạng thái nút nhấn.
 
   unsigned long _lastPressTime;             ///< Thời gian nhấn nút gần nhất.
-  const unsigned long _debounceDelay = 200; ///< Thời gian chống nhiễu (ms).
+  const unsigned long _debounceDelay = 300; ///< Thời gian chống nhiễu (ms).
 
   static RotaryEncoder *_instance; ///< Con trỏ tĩnh để sử dụng trong ISR.
 

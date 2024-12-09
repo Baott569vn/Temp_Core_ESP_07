@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Monitoring System</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">IoT Temp Monitor</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="temperature-settings">
+                <h2>Temperature Control</h2>
+                <div class="input-group">
+                    <label for="set-temperature">Set Temperature (°C):</label>
+                    <input type="number" id="set-temperature" min="0" max="100" step="0.1" placeholder="e.g. 25.5">
+                </div>
+                <div class="input-group">
+                    <label for="set-tolerance">Set Tolerance (°C):</label>
+                    <input type="number" id="set-tolerance" min="0" max="10" step="0.1" placeholder="e.g. 1.0">
+                </div>
+                <div class="buttons">
+                    <button id="start-temp-btn">Start Temperature Control</button>
+                    <button id="stop-temp-btn">Stop</button>
+                </div>
+                <div class="current-temp">
+                    <h3>Current Temperature: <span id="current-temp">--</span> °C</h3>
+                </div>
+                <div class="indicator">
+                    <div id="temp-indicator" class="indicator-light"></div>
+                    <p id="indicator-text">Temperature is out of range.</p>
+                </div>
+            </section>
+
+            <section class="timer">
+                <h2>Shutdown Timer</h2>
+                <div class="input-group">
+                    <label for="shutdown-time">Shutdown Time (minutes):</label>
+                    <input type="number" id="shutdown-time" min="0" max="60">
+                </div>
+                <div class="buttons">
+                    <button id="start-timer-btn">Start Timer</button>
+                    <button id="set-timer-btn">Set Timer</button>
+                </div>
+            </section>
+
+            <section class="chart">
+                <h2>Temperature Chart</h2>
+                <canvas id="temperatureChart"></canvas>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

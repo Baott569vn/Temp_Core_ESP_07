@@ -1,0 +1,200 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #121212;
+    color: #f1f1f1;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #A8C0FF, #6a7fd0);
+    /* Màu xanh dương nhạt */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    /* Đổi màu chữ logo thành trắng */
+}
+
+header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: #f1f1f1;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover {
+    color: #f1a7a7;
+}
+
+/* Main Content */
+main {
+    padding: 40px 0;
+}
+
+section {
+    background-color: #1f1f1f;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+section h2 {
+    font-size: 24px;
+    color: #3a55a3;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ddd;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #333;
+    border: 1px solid #555;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+input[type="number"]:focus {
+    background-color: #444;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+}
+
+button {
+    padding: 12px 25px;
+    background-color: #6a7fd0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #3a55a3;
+}
+
+/* Timer Section */
+button#start-temp-btn,
+button#stop-temp-btn,
+button#start-timer-btn,
+button#set-timer-btn {
+    width: 48%;
+}
+
+/* Chart Section */
+canvas {
+    width: 100%;
+    height: 400px;
+    background-color: #222;
+    border-radius: 8px;
+}
+
+/* Current Temperature Display */
+.current-temp {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #fff;
+}
+
+/* Temperature Control Indicator */
+/* Indicator Light Styles */
+.indicator {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.indicator-light {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 10px auto;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.5s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.indicator-text {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* Chế độ đèn sáng xanh */
+.indicator.green {
+    background: linear-gradient(145deg, #28a745, #218838);
+    /* Gradient xanh lá */
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(40, 167, 69, 0.7), 0 0 15px rgba(40, 167, 69, 0.3);
+}
+
+/* Chế độ đèn sáng đỏ */
+.indicator.red {
+    background: linear-gradient(145deg, #e02a2a, #cc1e1e);
+    /* Gradient đỏ */
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(224, 42, 42, 0.7), 0 0 15px rgba(224, 42, 42, 0.3);
+}
+
+.indicator-text.green {
+    color: #28a745;
+    /* Màu chữ xanh */
+}
+
+.indicator-text.red {
+    color: #e02a2a;
+    /* Màu chữ đỏ */
+}
+
+/* Khi nhiệt độ trong phạm vi */
+.green {
+    background-color: #28a745;
+    /* Xanh lá */
+}
+
+/* Khi nhiệt độ ngoài phạm vi */
+.red {
+    background-color: #e02a2a;
+    /* Đỏ */
+}

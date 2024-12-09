@@ -71,7 +71,14 @@ void RotaryEncoder::resetCounter()
 bool RotaryEncoder::isPressed()
 {
     bool state = _buttonPressed;
-    _buttonPressed = false;
+
+    // Sau khi nhận nhấn, reset trạng thái để không nhận lại nhấn xuống cho đến khi nhả ra
+    if (_buttonPressed)
+    {
+        _buttonPressed = false;
+        // Serial.println("isPressed");
+    }
+
     return state;
 }
 
@@ -144,16 +151,17 @@ void IRAM_ATTR RotaryEncoder::buttonPress()
 {
     unsigned long currentTime = millis();
 
+    // Chỉ nhận nút nhấn khi đã qua thời gian debounce
     if (currentTime - _lastPressTime > _debounceDelay)
     {
-        bool buttonState = digitalRead(_swPin) == LOW;
+        bool buttonState = digitalRead(_swPin) == LOW; // Nút nhấn khi trạng thái là LOW
 
-        if (buttonState)
+        // Kiểm tra nếu nút nhấn chuyển từ HIGH sang LOW
+        if (buttonState && !_buttonPressed)
         {
-            _buttonPressed = true;
-            // Serial.println("Button Pressed!");
+            _buttonPressed = true; // Ghi nhận nút nhấn
         }
-    }
 
-    _lastPressTime = currentTime; // Cập nhật thời gian nhấn.
+        _lastPressTime = currentTime; // Cập nhật thời gian nhấn
+    }
 }
